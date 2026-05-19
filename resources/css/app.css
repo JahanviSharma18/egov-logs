@@ -1,0 +1,249 @@
+/* FILE LOCATION: resources/css/app.css */
+/* Aurora Intelligence Theme Overhaul */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Aurora Intelligence Design Tokens ─────────────────────── */
+:root {
+    /* Deep Midnight & Forest Backgrounds */
+    --gt-bg:          #020617; /* Midnight */
+    --gt-surface:     #051119;
+    --gt-surface2:    #0a1f2c;
+    --gt-border:      rgba(6, 182, 212, 0.15); /* Cyan tint border */
+    --gt-border2:     rgba(16, 185, 129, 0.2); /* Emerald tint border */
+
+    /* Brand Glows */
+    --gt-brand:       #059669; /* Emerald 600 */
+    --gt-brand-dim:   rgba(5, 150, 105, 0.12);
+    --gt-brand-glow:  rgba(6, 182, 212, 0.15); /* Cyan glow */
+
+    /* Typography */
+    --gt-text:        #f8fafc;
+    --gt-text-2:      #94a3b8;
+    --gt-text-3:      #475569;
+    --gt-text-4:      #1e293b;
+
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ─── Base ──────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+    background: var(--gt-bg);
+    color: var(--gt-text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Monospace elements */
+code, kbd, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Background Atmospheric Grid */
+.bg-aurora-grid {
+    background-image: 
+        linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+/* ─── Scrollbar (Neon Mint Aesthetic) ───────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.4); }
+
+/* ─── Custom component classes ──────────────────────────────── */
+@layer components {
+
+    /* Severity badges - Aurora style */
+    .badge-info     { @apply bg-cyan-500/10    text-cyan-400    border border-cyan-500/20    text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest shadow-[0_0_10px_rgba(6,182,212,0.1)]; }
+    .badge-warning  { @apply bg-amber-500/10   text-amber-400   border border-amber-500/20   text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest shadow-[0_0_10px_rgba(245,158,11,0.1)]; }
+    .badge-error    { @apply bg-rose-500/10    text-rose-400    border border-rose-500/30    text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest shadow-[0_0_10px_rgba(244,63,94,0.2)]; }
+    .badge-critical { @apply bg-red-600/20     text-red-400     border border-red-500/40     text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(220,38,38,0.3)] animate-pulse; }
+    .badge-security { @apply bg-purple-500/10  text-purple-400  border border-purple-500/20  text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest shadow-[0_0_10px_rgba(168,85,247,0.1)]; }
+    .badge-audit    { @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]; }
+    .badge-debug    { @apply bg-slate-500/10   text-slate-400   border border-slate-500/20   text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-widest; }
+
+    /* Glassmorphism Surface Card - Optimized */
+    .gt-glass {
+        @apply bg-slate-900/80 backdrop-blur-sm border border-cyan-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)];
+    }
+    
+    .gt-card {
+        @apply bg-slate-950/80 border border-cyan-500/10 rounded-2xl backdrop-blur-sm hover:border-cyan-400/40 hover:bg-slate-900/90 transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(6,182,212,0.15)] hover:-translate-y-1 relative overflow-hidden;
+    }
+    
+    /* Animated Reflection Sweep for gt-card - Hardware Accelerated */
+    .gt-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transform: skewX(-20deg) translateX(-100%);
+        transition: transform 0.5s ease-out;
+        pointer-events: none;
+    }
+    .gt-card:hover::after {
+        transform: skewX(-20deg) translateX(100%);
+    }
+
+    .gt-hover-lift {
+        @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(6,182,212,0.15)];
+    }
+
+    /* Primary button - Emerald */
+    .btn-primary {
+        @apply bg-emerald-600 hover:bg-emerald-500 text-white text-[12px] font-semibold
+               px-5 py-2.5 rounded-lg transition-all duration-300
+               shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]
+               active:scale-[0.98];
+    }
+
+    /* Ghost button */
+    .btn-ghost {
+        @apply bg-transparent border border-slate-700/50 text-slate-300 text-[12px]
+               font-medium px-5 py-2.5 rounded-lg transition-all duration-300
+               hover:border-cyan-500/30 hover:text-cyan-300 hover:bg-cyan-900/10;
+    }
+
+    /* Input field */
+    .gt-input {
+        @apply bg-slate-900/50 border border-slate-700/50 text-slate-200 text-[12px]
+               rounded-lg px-3 py-2 w-full backdrop-blur-sm
+               placeholder:text-slate-500
+               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30
+               transition-all duration-300;
+    }
+
+    /* Futuristic Table row - Optimized hover */
+    .gt-row {
+        @apply grid items-center px-4 py-3
+               hover:bg-slate-800/80 transition-colors cursor-pointer duration-200
+               border-b border-slate-800/50 last:border-0 hover:shadow-[inset_2px_0_0_rgba(6,182,212,0.4)];
+    }
+}
+
+/* ─── AI Scanning Effect ────────────────────────────────────── */
+.ai-scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.8), transparent);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    z-index: 10;
+    opacity: 0.5;
+    animation: scan 3s linear infinite;
+}
+
+/* ─── Loading skeleton ──────────────────────────────────────── */
+.skeleton {
+    background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+    border-radius: 6px;
+}
+
+/* ─── Page transitions ──────────────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in {
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes auroraShift {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+    33% { transform: translate(5%, 8%) scale(1.1) rotate(5deg); opacity: 0.5; }
+    66% { transform: translate(-4%, -6%) scale(0.95) rotate(-2deg); opacity: 0.4; }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+}
+
+.animate-aurora-shift {
+    animation: auroraShift 25s ease-in-out infinite alternate;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(0) scale(1) translateX(0); opacity: 0.1; }
+    50% { transform: translateY(-150px) scale(1.3) translateX(20px); opacity: 0.8; }
+    100% { transform: translateY(-300px) scale(0.8) translateX(-20px); opacity: 0; }
+}
+
+.animate-float-particle {
+    animation: floatParticle linear infinite;
+}
+
+@keyframes lightBeam {
+    0% { transform: translate3d(-300px, 0, 0) skewX(-20deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translate3d(120vw, 0, 0) skewX(-20deg); opacity: 0; }
+}
+
+.animate-light-beam {
+    animation: lightBeam 15s linear infinite;
+    will-change: transform;
+}
+
+@keyframes auroraSlow {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+    50% { transform: translate(6%, 8%) scale(1.1) rotate(8deg); opacity: 0.7; }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+}
+
+.animate-aurora-slow {
+    animation: auroraSlow 30s ease-in-out infinite;
+}
+
+@keyframes hologramFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20% { opacity: 0.7; }
+    22% { opacity: 0.9; }
+    24% { opacity: 0.6; }
+    55% { opacity: 0.8; }
+}
+
+.animate-hologram-flicker {
+    animation: hologramFlicker 15s infinite;
+}
+
+
+/* ─── Recharts override — match dark theme ──────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: rgba(51, 65, 85, 0.4) !important;
+}
+.recharts-tooltip-cursor {
+    fill: rgba(6, 182, 212, 0.05) !important;
+}
