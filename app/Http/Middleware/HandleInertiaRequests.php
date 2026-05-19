@@ -1,11 +1,11 @@
 <?php
 // FILE LOCATION: app/Http/Middleware/HandleInertiaRequests.php
-// This file already exists — REPLACE its contents
 
 namespace App\Http\Middleware;
 
 use App\Models\LogEntry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -17,43 +17,41 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
-    /**
-     * Shared data — available on EVERY React page via usePage().props
-     */
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
 
-            // Auth user with roles
             'auth' => [
                 'user' => $request->user() ? [
                     'id'    => $request->user()->id,
                     'name'  => $request->user()->name,
                     'email' => $request->user()->email,
-                    'roles' => $request->user()->getRoleNames(), // Spatie roles
+                    'roles' => $request->user()->getRoleNames(),
                 ] : null,
             ],
 
-            // Recent critical/security alerts — for NotificationBell on every page
-            // Only runs when user is logged in
+            // FIX 1: Cache the alerts query for 60 seconds instead of hitting DB on every page load
             'recentAlerts' => function () use ($request) {
                 if (!$request->user()) return [];
 
-                return LogEntry::whereIn('level', ['critical', 'security'])
-                    ->latest()
-                    ->take(5)
-                    ->get()
-                    ->map(fn($log) => [
-                        'id'      => $log->id,
-                        'level'   => $log->level,
-                        'source'  => $log->source ?? 'System',
-                        'message' => $log->message,
-                        'time'    => $log->created_at->diffForHumans(),
-                    ])
-                    ->toArray();
+                $userId = $request->user()->id;
+
+                return Cache::remember("recent_alerts_{$userId}", 60, function () {
+                    return LogEntry::whereIn('level', ['critical', 'security'])
+                        ->latest()
+                        ->take(5)
+                        ->get()
+                        ->map(fn($log) => [
+                            'id'      => $log->id,
+                            'level'   => $log->level,
+                            'source'  => $log->source ?? 'System',
+                            'message' => $log->message,
+                            'time'    => $log->created_at->diffForHumans(),
+                        ])
+                        ->toArray();
+                });
             },
 
-            // Flash messages for toast notifications
             'flash' => [
                 'success' => fn() => $request->session()->get('success'),
                 'error'   => fn() => $request->session()->get('error'),

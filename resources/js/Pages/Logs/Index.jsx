@@ -2,7 +2,7 @@
 // Also create the folder: resources/js/Pages/Logs/
 
 import { Head, router, usePage } from "@inertiajs/react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import {
     IconSearch, IconFilter, IconDownload, IconRefresh,
@@ -86,6 +86,7 @@ export default function LogsIndex({ logs, sources = [], levelCounts = {}, filter
     const isAnalyst = userRoles.includes('analyst') || isAdmin;
 
     const [search,   setSearch]   = useState(filters.search    ?? "");
+    const searchDebounce = useRef(null); // FIX 10: debounce ref
     const [level,    setLevel]    = useState(filters.level     ?? "");
     const [dateFrom, setDateFrom] = useState(filters.date_from ?? "");
     const [dateTo,   setDateTo]   = useState(filters.date_to   ?? "");
@@ -175,8 +176,21 @@ export default function LogsIndex({ logs, sources = [], levelCounts = {}, filter
                                 type="text"
                                 placeholder="Search telemetry logs..."
                                 value={search}
-                                onChange={e => setSearch(e.target.value)}
-                                onKeyDown={e => e.key === "Enter" && applyFilters()}
+                                onChange={e => {
+                                    const val = e.target.value;
+                                    setSearch(val);
+                                    // FIX 10: Debounce — only fires request 500ms after user stops typing
+                                    clearTimeout(searchDebounce.current);
+                                    searchDebounce.current = setTimeout(() => {
+                                        applyFilters({ search: val });
+                                    }, 500);
+                                }}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter") {
+                                        clearTimeout(searchDebounce.current);
+                                        applyFilters();
+                                    }
+                                }}
                                 className="bg-transparent text-[12px] text-slate-200 placeholder:text-slate-500 outline-none flex-1 min-w-0"
                             />
                             {search && (
