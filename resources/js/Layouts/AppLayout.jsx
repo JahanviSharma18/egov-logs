@@ -210,7 +210,6 @@ export default function AppLayout({ children, title = "Dashboard" }) {
                                 {userRoles.length > 0 ? userRoles[0].replace('-', ' ') : 'User'}
                             </div>
                         </div>
-                        <IconDotsVertical size={13} className="text-slate-500 flex-shrink-0 group-hover:text-cyan-400 transition-colors" />
                     </Link>
                 </div>
                 </aside>

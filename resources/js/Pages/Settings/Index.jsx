@@ -38,7 +38,6 @@ export default function SettingsIndex({ settings }) {
         <AppLayout title="System Settings">
             <Head title="System Settings" />
 
-            <div className="p-5 space-y-6 max-w-4xl mx-auto">
             <div className="p-6 space-y-8 max-w-5xl mx-auto relative z-10">
 
 

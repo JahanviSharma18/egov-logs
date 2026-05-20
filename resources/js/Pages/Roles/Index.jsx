@@ -3,7 +3,7 @@
 import { Head, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import {
-    IconShieldCheck, IconPlus, IconTrash, IconCheck, IconX, IconUsers
+    IconShieldCheck, IconPlus, IconTrash, IconCheck, IconX, IconUsers, IconUser
 } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 

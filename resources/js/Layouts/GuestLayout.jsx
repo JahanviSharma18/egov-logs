@@ -11,11 +11,11 @@ export default function GuestLayout({ children }) {
 
             {/* Cinematic Aurora Background */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[radial-gradient(circle,rgba(6,182,212,0.1)_0%,transparent_70%)] mix-blend-screen animate-aurora-shift" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)] mix-blend-screen animate-aurora-shift" style={{ animationDelay: '5s' }} />
-                
-                {/* Noise texture overlay */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+                {/* 3D Hardware Accelerated Glow Atmospheric Orbs */}
+                <div className="absolute top-[-25%] left-[-15%] w-[80vw] h-[80vh] rounded-full bg-[radial-gradient(circle,rgba(6,182,212,0.18)_0%,transparent_70%)] mix-blend-screen animate-aurora-shift will-change-transform" style={{ transform: 'translate3d(0,0,0)' }} />
+                <div className="absolute bottom-[-20%] right-[-15%] w-[70vw] h-[70vh] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,transparent_70%)] mix-blend-screen animate-aurora-shift will-change-transform" style={{ animationDelay: '5s', transform: 'translate3d(0,0,0)' }} />
+                <div className="absolute top-[30%] left-[25%] w-[50vw] h-[50vh] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.10)_0%,transparent_75%)] mix-blend-screen animate-aurora-shift will-change-transform" style={{ animationDelay: '10s', transform: 'translate3d(0,0,0)' }} />
+
 
                 {/* Floating particles */}
                 <div className="absolute inset-0">
@@ -25,8 +25,8 @@ export default function GuestLayout({ children }) {
                         {t:"70%",l:"12%",s:1,o:.20,d:"3s"}, {t:"80%",l:"60%",s:2,o:.25,d:"5s"},
                         {t:"90%",l:"30%",s:1,o:.15,d:"0.5s"}, {t:"60%",l:"85%",s:1,o:.18,d:"2.5s"},
                     ].map((s, i) => (
-                        <div key={i} className="absolute rounded-full bg-cyan-400 animate-float shadow-[0_0_8px_#06b6d4]"
-                            style={{ top: s.t, left: s.l, width: s.s, height: s.s, opacity: s.o, animationDelay: s.d }} />
+                        <div key={i} className="absolute rounded-full bg-cyan-400 animate-float shadow-[0_0_8px_#06b6d4] will-change-transform"
+                            style={{ top: s.t, left: s.l, width: s.s, height: s.s, opacity: s.o, animationDelay: s.d, transform: 'translate3d(0,0,0)' }} />
                     ))}
                 </div>
                 
@@ -51,8 +51,8 @@ export default function GuestLayout({ children }) {
                     </Link>
                 </div>
 
-                {/* Form card */}
-                <div className="gt-glass border border-slate-700/50 rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] fade-up" style={{ animationDelay: '0.1s' }}>
+                {/* Form card with stunning glow border & shadow */}
+                <div className="gt-glass border border-cyan-500/25 rounded-2xl p-8 shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_50px_rgba(6,182,212,0.18)] hover:shadow-[0_12px_45px_rgba(0,0,0,0.7),0_0_60px_rgba(6,182,212,0.25)] hover:border-cyan-400/40 transition-all duration-500 fade-up" style={{ animationDelay: '0.1s' }}>
                     {children}
                 </div>
 
